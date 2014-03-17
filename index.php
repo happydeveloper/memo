@@ -10,7 +10,7 @@
 <?php
 // data transfer object
 class memoEntry {
-	public $id, $title, $description, $created;
+	public $id, $title, $memo, $created;
 	public function __Construct() {
 		
 	}
@@ -27,7 +27,7 @@ try {
 	die('sorry, database problems');
 }
 
-$query = $hndlr->query('SELECT * FROM memo');
+$query = $hndlr->query('SELECT * FROM memo order by created desc');
 $query->setFetchMode(PDO::FETCH_CLASS, 'memoEntry');
 
 ?>
@@ -47,25 +47,16 @@ $query->setFetchMode(PDO::FETCH_CLASS, 'memoEntry');
 		<!-- entry -->
 <?php
 	//service layer, present layer
+while($r=$query->fetch()){
+	echo '<li><div class="enrty memo">';
+	echo '<div class="id">',$r->id ,'</div>';
+	echo '<div class="title"><h3>', $r->title , '</h3></div>';
+	echo '<div class="memo">', $r->memo ,'</div>';
+	echo '<div class="created">', $r->created ,'</div>';
+	echo' </div></li>';
+}
 
 ?>
-		<ul>
-			<li>
-		<div class="entry">
-			<div class="title">
-				<h3>
-					"title"
-				</h3>
-			</div>
-			
-			<article>
-				memo 내용이 들어감	
-			</article>
-			
-			<div class="created"><span>"만든날짜"</span></div>		
-		</div>
-			</li>
-		</ul>
 		<!-- entry end -->
 	</div>
 </body>
