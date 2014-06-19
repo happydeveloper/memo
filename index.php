@@ -29,13 +29,26 @@ try {
 
 $query = $hndlr->query('SELECT * FROM memo order by created desc');
 $query->setFetchMode(PDO::FETCH_CLASS, 'memoEntry');
+if(PHP_SAPI === 'cli')
+{
+	echo 'command line \r\n';
 
+	while($r=$query->fetch()){
+		echo $r->id." > ".$r->created." > ".$r->title."\r\n";
+		echo $r->id." > ".$r->memo."\r\n";
+		print "\r\n";
+	}
+}
+else
+{
 ?>
+
+
 <!DOCTYPE html>
 <html lang="en">
 <head>
 	<meta charset="UTF-8">
-	<meta name="viewport" content="initial-scale=0.70">
+	<meta name="viewport" content="initial-scale=0.70, minimal-ui">
 	<meta name="description" content="my memo history">
 	<meta name="author" content="duru">
 	
@@ -61,3 +74,6 @@ while($r=$query->fetch()){
 	</div>
 </body>
 </html>
+<?php
+}
+?>
